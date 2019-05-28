@@ -5,8 +5,8 @@
 #define b1 3//emergencia
 #define b2 4//
 #define b3 5//
-#define b4 6//
-#define b5 7//
+#define b4 6//puerta1
+#define b5 7//puerta2
 
 
 int ledEmergencia=22;
@@ -30,9 +30,9 @@ boolean aspersoresB;
 boolean aforoCompletoB;
 
 boolean puerta1Open;
-boolean puerta1Close;
+//boolean puerta1Close;
 boolean puerta2Open;
-boolean puerta2Close;
+//boolean puerta2Close;
 
 float humedad;
 float temperatura;
@@ -76,9 +76,9 @@ void setup() {
   aforoCompletoB = false;
 
   puerta1Open = false;
-  puerta1Close = false;
+ // puerta1Close = false;
   puerta2Open = false;
-  puerta2Close = false;
+//  puerta2Close = false;
 
   humedad = 0;
   temperatura = 0;
@@ -148,30 +148,26 @@ void CheckInputs() {
       emergenciaB = false;
     }
   }
-  //if (digitalRead(b2) == LOW)aforo++;
-  //if (digitalRead(b3) == LOW)aforo--;
+  if (digitalRead(b2) == LOW)aforo++;
+  if (digitalRead(b3) == LOW)aforo--;
 
-  //abrir puerta1
-  if (digitalRead(b2) == LOW) {
-    if (puerta1Open == false) {
-      puerta1Open = true;
-    }
-  }
 
   if (digitalRead(b4) == LOW) {
-    if (puerta2Open == false) {
-      puerta2Open = true;
+    if (puerta1Open == false) {
+      OpenPuerta1();
+      puerta1Open = true;
+    }else if (puerta1Open == true) {
+      ClosePuerta1();
+      puerta1Open = false;
     }
   }
-  if (digitalRead(b3) == LOW) {
-    if (puerta1Close == false) {
-      puerta1Close = true;
-    }
-  }
-
   if (digitalRead(b5) == LOW) {
-    if (puerta2Close == false) {
-      puerta2Close = true;
+    if (puerta2Open == false) {
+      OpenPuerta2();
+      puerta2Open = true;
+    }else if (puerta2Open == true) {
+      ClosePuerta2();
+      puerta2Open = false;
     }
   }
 
@@ -180,7 +176,7 @@ void CheckInputs() {
 //PIR
 if(lucesDentroB==true){  pirTime=pirTime+(millis()-previousPir);
 Serial.print(pirTime);Serial.println("ms pirtime");
-previousPir=millis();
+previousPir=millis(); 
 
 }
 if(digitalRead(pirPin)==HIGH){
@@ -210,21 +206,15 @@ if(digitalRead(pirPin)==HIGH){
 //Outputs
 void RunOutputs() {
   Serial.println("running outputs");
+  /*
   if (puerta1Open == true) {
     Serial.println("opening puerta 1");
-
     OpenPuerta1();
-
-    //open puerta 1
     puerta1Open = false;
-
   }
   if (puerta1Close == true) {
     Serial.println("closing puerta 1");
-
     ClosePuerta1();
-
-    //close puerta 1
     puerta1Close = false;
   }
   if (puerta2Open == true) {
@@ -236,7 +226,7 @@ void RunOutputs() {
     Serial.println("closing puerta 2");
     ClosePuerta2();
     puerta2Close = false;
-  }
+  }*/
  /* if (lucesDentroB == true) {
     Serial.println("comienza secuencia de iluminacion");
     //enncender luz
